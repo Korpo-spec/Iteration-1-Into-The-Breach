@@ -8,14 +8,16 @@ public class Grid<T>
 {
     private T[,] grid;
     private TextMesh[,] _textMeshes;
+    private Plane _plane;
 
     private int width;
     private int height;
     private float cellSize;
     private Vector3 origin;
+    private Vector3 _normal;
 
     public event Action<T> OnGridValueChanged;
-    public Grid(int width, int height, float cellSize, Vector3 origin)
+    public Grid(int width, int height, float cellSize, Vector3 origin, Vector3 normal)
     {
         grid = new T[width, height];
         _textMeshes = new TextMesh[width, height];
@@ -23,7 +25,9 @@ public class Grid<T>
         this.height = height;
         this.cellSize = cellSize;
         this.origin = origin;
-        
+        this._normal = normal;
+        _normal.Normalize();
+        _plane = new Plane(Vector3.forward, normal);
         VisualizeGrid();
     }
 
@@ -81,7 +85,20 @@ public class Grid<T>
     {
         SetValue(Mathf.FloorToInt(vector2.x),Mathf.FloorToInt(vector2.y), value);
     }
-    
-    
+
+    public bool CameraRaycast(Camera camera, out Vector2 vec)
+    {
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+
+        float enter = 0;
+        if (_plane.Raycast(ray, out enter))
+        {
+            Debug.Log(ray.GetPoint(enter));
+            vec = ray.GetPoint(enter);
+            return true;
+        }
+        vec = Vector2.zero;
+        return false;
+    }
     
 }
