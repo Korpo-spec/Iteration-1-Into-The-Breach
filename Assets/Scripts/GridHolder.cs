@@ -12,7 +12,7 @@ public class GridHolder : MonoBehaviour
     {
         grid = new Grid<GameObject>(5,4,1,Vector3.zero, Vector3.up, OnSetup);
         
-        Debug.DrawLine(Vector3.zero, Vector3.right, Color.white, 100f);
+        
     }
 
     private void OnSetup(Vector2 vec, GameObject[,] gameObjects)
@@ -25,11 +25,8 @@ public class GridHolder : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            //Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition+ new Vector3(0,0,5)));
             grid.CameraRaycast(Camera.main, out Vector2 pos);
             grid.GetValue(pos).GetComponent<Renderer>().material.color = Color.red;
-            //grid.SetValue(Camera.main.ScreenToWorldPoint(Input.mousePosition+ new Vector3(0,0,10)), 10);
-
         }
     }
 }
