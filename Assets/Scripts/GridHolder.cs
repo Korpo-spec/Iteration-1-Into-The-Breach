@@ -20,7 +20,8 @@ public class GridHolder : MonoBehaviour
         _worldGrid = new Grid<GameObject>(10,10,1,Vector3.zero, Vector3.up, OnSetup);
 
         _EnemyGrid = new Grid<Entity>(10, 10, 1, Vector3.zero, Vector3.up, null);
-        var g = Instantiate(FLIEGZUG, new Vector3(0.5f, 0, 0.5f), Quaternion.identity);
+        var g = Instantiate(FLIEGZUG);
+        g.OnSpawn();
         _EnemyGrid.SetValue(0,0, g);
     }
 
@@ -48,7 +49,7 @@ public class GridHolder : MonoBehaviour
                 vec.x *= (int)pos.x;
                 vec.z *= (int)pos.y;
                 vec += new Vector3(0.5f, 0, 0.5f);
-                selected.transform.position = vec;
+                selected.visualizer.transform.position = vec;
                 _EnemyGrid.SetValue(pos, selected);
                 selected = null;
             }

@@ -2,18 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+[CreateAssetMenu()]
+public class Entity : ScriptableObject
 {
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject visualizer;
 
-    // Update is called once per frame
-    void Update()
+    public Mesh mesh;
+
+    public Material mat;
+
+    public virtual void OnSpawn()
     {
-        
+        visualizer = visualizer.GetComponent<EntityVisualizer>().Spawn(this);
     }
 }
