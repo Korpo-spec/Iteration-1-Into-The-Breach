@@ -49,7 +49,8 @@ public class Grid<T>
                 /*_textMeshes[j,i] = UtilsClass.CreateWorldText(grid[j, i].ToString(), null, new Vector3(cellSize * (j +0.5f), cellSize * (i+0.5f), 0), 7,
                     Color.white, TextAnchor.MiddleCenter);
                     */
-                _onSetup(new Vector2(j,i), grid);
+                
+                _onSetup?.Invoke(new Vector2(j,i), grid);
                 Debug.DrawLine(_rotationQuat * (origin+new Vector3(cellSize * j, cellSize * i, 0)) ,_rotationQuat *(origin+new Vector3(cellSize*(j+1), cellSize*(i), 0)), Color.white, 100f);
                 Debug.DrawLine(_rotationQuat * (origin+new Vector3(cellSize * j, cellSize * i, 0)),_rotationQuat *(origin+new Vector3(cellSize*(j), cellSize*(i+1), 0)), Color.white, 100f);
                 if (j == grid.GetLength(0)-1)
@@ -64,6 +65,30 @@ public class Grid<T>
             }
         }
     }
+
+    /*
+    public void VisualizeGizmoGrid()
+    {
+        for (int i = 0; i < grid.GetLength(1); i++)
+        {
+            for (int j = 0; j < grid.GetLength(0); j++)
+            {
+                Debug.DrawLine(_rotationQuat * (origin+new Vector3(cellSize * j, cellSize * i, 0)) ,_rotationQuat *(origin+new Vector3(cellSize*(j+1), cellSize*(i), 0)), Color.white, 100f);
+                Debug.DrawLine(_rotationQuat * (origin+new Vector3(cellSize * j, cellSize * i, 0)),_rotationQuat *(origin+new Vector3(cellSize*(j), cellSize*(i+1), 0)), Color.white, 100f);
+                if (j == grid.GetLength(0)-1)
+                {
+                    Debug.DrawLine(_rotationQuat *(origin+new Vector3(cellSize * (j+1), cellSize * i, 0)),_rotationQuat *(origin+new Vector3(cellSize*(j+1), cellSize*(i+1), 0)), Color.white, 100f);
+                }
+                
+                if (i == grid.GetLength(1)-1)
+                {
+                    Debug.DrawLine(_rotationQuat *(origin+new Vector3(cellSize * j, cellSize * (i+1), 0)),_rotationQuat *(origin+new Vector3(cellSize*(j+1), cellSize*(i+1), 0)), Color.white, 100f);
+                }
+            }
+        }
+    }
+    */
+    
 
     private void UpdateVisualizer(int x, int y)
     {
