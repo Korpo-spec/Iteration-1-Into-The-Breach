@@ -17,7 +17,9 @@ public class GridHolder : MonoBehaviour
 
     private void OnSetup(Vector2 vec, GameObject[,] gameObjects)
     {
-        gameObjects[(int)vec.x, (int)vec.y]= Instantiate(gridObj, new Vector3(vec.x + 0.5f, -0.5f, vec.y + 0.5f), Quaternion.identity);
+        var g = Instantiate(gridObj, new Vector3(vec.x + 0.5f, -0.5f, vec.y + 0.5f), Quaternion.identity);
+        g.transform.parent = transform;
+        gameObjects[(int)vec.x, (int)vec.y] = g;
     }
 
     // Update is called once per frame
