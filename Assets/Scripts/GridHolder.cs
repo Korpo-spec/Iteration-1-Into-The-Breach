@@ -16,20 +16,25 @@ public class GridHolder : MonoBehaviour
 
     private Entity selected;
     private Grid<GameObject> _worldGrid;
-    private Grid<Entity> _EnemyGrid;
+    private Grid<Entity> _enemyGrid;
     
     void Start()
     {
         _worldGrid = new Grid<GameObject>(_width,_height,1,Vector3.zero, Vector3.up, OnSetup);
 
-        _EnemyGrid = new Grid<Entity>(_width, _height, 1, Vector3.zero, Vector3.up, null);
+        _enemyGrid = new Grid<Entity>(_width, _height, 1, Vector3.zero, Vector3.up, null);
         var g = Instantiate(FLIEGZUG);
         g.OnSpawn();
-        _EnemyGrid.SetValue(0,0, g);
+        _enemyGrid.SetValue(0,0, g);
         
         g = Instantiate(FLYINGPLANETHINGYFROMDOOMANDBEOYND);
+        
         g.OnSpawn();
-        _EnemyGrid.SetValue(_width-1,_height-1, g);
+        g.Movements.Add(new Vector2(2,0));
+        g.Movements.Add(new Vector2(-2,0));
+        g.Movements.Add(new Vector2(0,2));
+        g.Movements.Add(new Vector2(0,-2));
+        _enemyGrid.SetValue(_width-1,_height-1, g);
     }
 
     private void OnSetup(Vector2 vec, GameObject[,] gameObjects)
@@ -46,8 +51,8 @@ public class GridHolder : MonoBehaviour
         {
             if (!selected)
             {
-                _EnemyGrid.CameraRaycast(Camera.main, out Vector2 pos);
-                selected = _EnemyGrid.GetValue(pos);
+                _enemyGrid.CameraRaycast(Camera.main, out Vector2 pos);
+                selected = _enemyGrid.GetValue(pos);
                 if (selected)
                 {
                     
@@ -55,7 +60,7 @@ public class GridHolder : MonoBehaviour
                     foreach (var moves in selected.Movements)
                     {
                         var g = _worldGrid.GetValue(selected.gridPos + moves);
-                        if (g)
+                        if (g &&!_enemyGrid.GetValue(selected.gridPos + moves))
                         {
                             g.GetComponent<MeshRenderer>().material.color = Color.red;
                         }
@@ -65,7 +70,7 @@ public class GridHolder : MonoBehaviour
             }
             else
             {
-                if (!_EnemyGrid.CameraRaycast(Camera.main, out Vector2 pos))
+                if (!_enemyGrid.CameraRaycast(Camera.main, out Vector2 pos))
                 {
                     return;
                 }
@@ -75,7 +80,7 @@ public class GridHolder : MonoBehaviour
                 pos = pos.FloorToInt();
                 foreach (var moves in selected.Movements)
                 {
-                    if (pos == selected.gridPos + moves)
+                    if (pos == selected.gridPos + moves &&!_enemyGrid.GetValue(pos))
                     {
                         validPos = true;
                         break;
@@ -102,8 +107,8 @@ public class GridHolder : MonoBehaviour
                 vec.z *= (int)pos.y;
                 vec += new Vector3(0.5f, 0, 0.5f);
                 selected.visualizer.transform.position = vec;
-                _EnemyGrid.SetValue(selected.gridPos, null);
-                _EnemyGrid.SetValue(pos, selected);
+                _enemyGrid.SetValue(selected.gridPos, null);
+                _enemyGrid.SetValue(pos, selected);
                 selected.gridPos = pos;
                 selected = null;
             }
