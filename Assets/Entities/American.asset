@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2dfcd42d1dc36df4dbfbc146a27c222d, type: 3}
-  m_Name: baseThing
+  m_Name: American
   m_EditorClassIdentifier: 
   visualizer: {fileID: 2329847714727598817, guid: 3bb7f47f64f6a0842b31c6f210eabaaa,
     type: 3}
-  mesh: {fileID: 4300000, guid: 33194a37d940c93458699378ee68d94c, type: 3}
-  mat: {fileID: 2100000, guid: 0f40575d24dd17a4c98681ecbea0ae11, type: 2}
-  entityFaction: 0
+  mesh: {fileID: 4300000, guid: 5896b06fa032ab64bb88b848fd99d9da, type: 3}
+  mat: {fileID: 2100000, guid: 0d8231b30c98af64caa44000ff598093, type: 2}
+  entityFaction: 1
   gridPos: {x: 0, y: 0}
   hp: 0
   damage: 0

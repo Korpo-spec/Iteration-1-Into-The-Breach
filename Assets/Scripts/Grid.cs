@@ -67,7 +67,7 @@ public class Grid<T>
     }
 
     /*
-    public void VisualizeGizmoGrid()
+    public static void VisualizeGizmoGrid(int height, int width)
     {
         for (int i = 0; i < grid.GetLength(1); i++)
         {
@@ -89,6 +89,7 @@ public class Grid<T>
     }
     */
     
+    
 
     private void UpdateVisualizer(int x, int y)
     {
@@ -97,7 +98,8 @@ public class Grid<T>
 
     public T GetValue(int x, int y)
     {
-        if (x < 0 || x > width || y < 0 || y > height)
+        //Debug.Log("X: " + x + " Y: " +y);
+        if (x < 0 || x > width-1 || y < 0 || y > height-1)
         {
             return default(T);
         }
@@ -112,7 +114,7 @@ public class Grid<T>
 
     public void SetValue(int x, int y, T value)
     {
-        if (x < 0 || x > width || y < 0 || y > height)
+        if (x < 0 || x > width-1 || y < 0 || y > height-1)
         {
             return;
         }
@@ -138,6 +140,10 @@ public class Grid<T>
             vec.x = rayHit.x;
             vec.y = rayHit.z;
             
+            if (vec.x < 0 || vec.x > width || vec.y < 0 || vec.y > height)
+            {
+                return false;
+            }
             /*
             Vector3 cameraX = Vector3.zero;
             cameraX = camera.transform.right;

@@ -16,5 +16,12 @@ public static class Exstentions
         return vec.normalized;
     }
 
+    public static Vector2 FloorToInt(this Vector2 vec)
+    {
+        vec.x = Mathf.FloorToInt(vec.x);
+        vec.y = Mathf.FloorToInt(vec.y);
+        return vec;
+    }
+
     
 }

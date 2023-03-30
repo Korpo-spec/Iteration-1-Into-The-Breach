@@ -430,7 +430,6 @@ GameObject:
   - component: {fileID: 64128404314373020}
   - component: {fileID: 64871128085901862}
   - component: {fileID: 64708354488445542}
-  - component: {fileID: 7176533787824732489}
   m_Layer: 0
   m_Name: SM_Veh_American_Plane_Transport_01
   m_TagString: Untagged
@@ -570,18 +569,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43323521968431474, guid: cfe4f4042b8b6934ab9554524c301c59, type: 2}
---- !u!114 &7176533787824732489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1366743620984186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dfcd42d1dc36df4dbfbc146a27c222d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1559553773442016
 GameObject:
   m_ObjectHideFlags: 0

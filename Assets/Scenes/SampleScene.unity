@@ -533,6 +533,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridObj: {fileID: 847414025}
   FLIEGZUG: {fileID: 11400000, guid: 87c431ef987d3bd4996a8c922933abd1, type: 2}
+  FLYINGPLANETHINGYFROMDOOMANDBEOYND: {fileID: 11400000, guid: c13c2c3c0d337fd4bbcc362c98deae9a,
+    type: 2}
+  _width: 5
+  _height: 5
 --- !u!4 &1257366012
 Transform:
   m_ObjectHideFlags: 0
