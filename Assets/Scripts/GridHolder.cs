@@ -17,6 +17,7 @@ public class GridHolder : MonoBehaviour
     private Entity selected;
     private Grid<GameObject> _worldGrid;
     private Grid<Entity> _enemyGrid;
+    private bool isDoingVisual;
     
     void Start()
     {
@@ -44,9 +45,14 @@ public class GridHolder : MonoBehaviour
         gameObjects[(int)vec.x, (int)vec.y] = g;
     }
 
+    
     // Update is called once per frame
     void Update()
     {
+        if (isDoingVisual)
+        {
+            return;
+        }
         if (Input.GetMouseButtonDown(0))
         {
             if (!selected)
@@ -106,7 +112,8 @@ public class GridHolder : MonoBehaviour
                 vec.x *= (int)pos.x;
                 vec.z *= (int)pos.y;
                 vec += new Vector3(0.5f, 0, 0.5f);
-                selected.visualizer.transform.position = vec;
+                //selected.visualizer.transform.position = vec;
+                StartCoroutine(MoveCharacter(selected.visualizer.transform, vec));
                 _enemyGrid.SetValue(selected.gridPos, null);
                 _enemyGrid.SetValue(pos, selected);
                 selected.gridPos = pos;
@@ -114,6 +121,33 @@ public class GridHolder : MonoBehaviour
             }
             
         }
+    }
+
+    private IEnumerator MoveCharacter(Transform character, Vector3 newPos)
+    {
+        isDoingVisual = true;
+        Vector3 newPosVec3 = newPos;
+        newPosVec3.y = character.position.y;
+        
+        float time = 0;
+
+        Quaternion startRot = character.rotation;
+        while (time < 1)
+        {
+            character.rotation = Quaternion.Lerp(startRot, Quaternion.LookRotation(newPosVec3- character.position ), time);
+            yield return new WaitForEndOfFrame();
+            time += Time.deltaTime * 5;
+        }
+
+        time = 0;
+        Vector3 startPos = character.position;
+        while (time < 1)
+        {
+            character.position = Vector3.Lerp(startPos, newPosVec3, time);
+            time += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        isDoingVisual = false;
     }
 
     private void OnDrawGizmos()
