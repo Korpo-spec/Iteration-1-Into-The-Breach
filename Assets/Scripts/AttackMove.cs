@@ -29,7 +29,7 @@ public class AttackMove : UnitMove
         return false;
     }
 
-    public override void MoveInteract(Entity otherUnit, Entity thisUnit)
+    public override void MoveInteract(Entity otherUnit, Entity thisUnit, Vector2 pos)
     {
         if (otherUnit.entityFaction != thisUnit.entityFaction)
         {

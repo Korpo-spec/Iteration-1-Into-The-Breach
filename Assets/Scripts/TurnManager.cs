@@ -15,7 +15,7 @@ public class TurnManager : MonoBehaviour
     private Entity m_Selected;
     private Grid<GameObject> m_WorldGrid;
     private Grid<Entity> m_EnemyGrid;
-    private bool m_IsDoingVisual;
+    public static bool IsDoingVisual;
 
     private Faction m_CurrentFaction;
     
@@ -52,7 +52,7 @@ public class TurnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_IsDoingVisual)
+        if (IsDoingVisual)
         {
             return;
         }
@@ -117,39 +117,25 @@ public class TurnManager : MonoBehaviour
                 
                 bool validPos = false;
                 pos = pos.FloorToInt();
-                foreach (var moves in m_Selected.movements[0].movements)
-                {
-                    if (pos == m_Selected.gridPos + moves &&!m_EnemyGrid.GetValue(pos))
-                    {
-                        validPos = true;
-                        break;
-                    }
-                }
+                
+                validPos = m_Selected.availableMoves.TryGetValue(pos, out UnitMove move);
                 
                 if (!validPos)
                 {
                     return;
                 }
                 
-                foreach (var moves in m_Selected.movements[0].movements)
+                foreach (var moves in m_Selected.availableMoves.Keys)
                 {
-                    var g = m_WorldGrid.GetValue(m_Selected.gridPos + moves);
+                    var g = m_WorldGrid.GetValue(moves);
                     if (g)
                     {
                         g.GetComponent<MeshRenderer>().material.color = Color.gray;
                     }
                 }
-
-                Vector3 vec = new Vector3(1f, 0, 1f);
-                vec.x *= (int)pos.x;
-                vec.z *= (int)pos.y;
-                vec += new Vector3(0.5f, 0, 0.5f);
-                //selected.visualizer.transform.position = vec;
                 m_CurrentFaction = GetNextFaction(m_CurrentFaction);
-                StartCoroutine(MoveCharacter(m_Selected.visualizer.transform, vec));
-                m_EnemyGrid.SetValue(m_Selected.gridPos, null);
-                m_EnemyGrid.SetValue(pos, m_Selected);
-                m_Selected.gridPos = pos;
+                StartCoroutine(move.VisualizeMove(m_Selected, pos , m_EnemyGrid));
+                
                 m_Selected = null;
             }
             
@@ -174,7 +160,7 @@ public class TurnManager : MonoBehaviour
 
     private IEnumerator MoveCharacter(Transform character, Vector3 newPos)
     {
-        m_IsDoingVisual = true;
+        IsDoingVisual = true;
         Vector3 newPosVec3 = newPos;
         newPosVec3.y = character.position.y;
         
@@ -196,6 +182,6 @@ public class TurnManager : MonoBehaviour
             time += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-        m_IsDoingVisual = false;
+        IsDoingVisual = false;
     }
 }

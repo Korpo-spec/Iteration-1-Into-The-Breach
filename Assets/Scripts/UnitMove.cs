@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class UnitMove : ScriptableObject
+public abstract class UnitMove : ScriptableObject
 {
 
-    public virtual List<Vector2> movements { get; set; }
+    public abstract List<Vector2> movements { get; set; }
 
     public int priority;
     public Color moveColor;
@@ -22,10 +22,20 @@ public class UnitMove : ScriptableObject
         return true;
     }
 
-    public virtual void MoveInteract(Entity otherUnit, Entity thisUnit)
+    public virtual void MoveInteract(Entity otherUnit, Entity thisUnit, Vector2 pos)
     {
         
     }
+    public virtual void MoveInteract(Entity entity,Vector2 pos, Grid<Entity> grid)
+    {
+        
+    }
+
+    public virtual IEnumerator VisualizeMove(Entity entity, Vector2 pos, Grid<Entity> grid)
+    {
+        yield break;
+    }
+    
 
 }
 
