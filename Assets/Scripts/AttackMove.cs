@@ -29,11 +29,24 @@ public class AttackMove : UnitMove
         return false;
     }
 
-    public override void MoveInteract(Entity otherUnit, Entity thisUnit, Vector2 pos)
+    public override void MoveInteract(Entity thisUnit, Entity otherUnit, Vector2 pos)
     {
         if (otherUnit.entityFaction != thisUnit.entityFaction)
         {
+            otherUnit.DecreaseHealth(thisUnit.damage);
             
         }
+    }
+
+    public override IEnumerator VisualizeMove(Entity entity,Entity otherEntity, Vector2 pos, Grid<Entity> grid)
+    {
+        MoveInteract(entity, otherEntity, pos);
+
+        return PlayAnim();
+    }
+
+    private IEnumerator PlayAnim()
+    {
+        yield return null;
     }
 }

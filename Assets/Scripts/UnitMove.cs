@@ -19,10 +19,10 @@ public abstract class UnitMove : ScriptableObject
     
     public virtual bool AvailableMove(Entity otherUnit, Entity thisUnit)
     {
-        return true;
+        return false;
     }
 
-    public virtual void MoveInteract(Entity otherUnit, Entity thisUnit, Vector2 pos)
+    public virtual void MoveInteract(Entity thisUnit, Entity otherUnit, Vector2 pos)
     {
         
     }
@@ -36,6 +36,10 @@ public abstract class UnitMove : ScriptableObject
         yield break;
     }
     
+    public virtual IEnumerator VisualizeMove(Entity entity,Entity otherEntity, Vector2 pos, Grid<Entity> grid)
+    {
+        yield break;
+    }
 
 }
 

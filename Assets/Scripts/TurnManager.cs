@@ -38,6 +38,7 @@ public class TurnManager : MonoBehaviour
         g.movements[0].movements.Add(new Vector2(0,2));
         g.movements[0].movements.Add(new Vector2(0,-2));
         */
+        Time.timeScale *= 10;
         m_EnemyGrid.SetValue(width-1,height-1, g);
     }
 
@@ -124,6 +125,8 @@ public class TurnManager : MonoBehaviour
                 {
                     return;
                 }
+
+                Entity otherEntity = m_EnemyGrid.GetValue(pos);
                 
                 foreach (var moves in m_Selected.availableMoves.Keys)
                 {
@@ -134,7 +137,8 @@ public class TurnManager : MonoBehaviour
                     }
                 }
                 m_CurrentFaction = GetNextFaction(m_CurrentFaction);
-                StartCoroutine(move.VisualizeMove(m_Selected, pos , m_EnemyGrid));
+                
+                StartCoroutine(otherEntity ? move.VisualizeMove(m_Selected,otherEntity, pos , m_EnemyGrid):move.VisualizeMove(m_Selected, pos , m_EnemyGrid));
                 
                 m_Selected = null;
             }

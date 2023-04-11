@@ -18,6 +18,15 @@ public class UnitHealthBar : MonoBehaviour
 
     }
 
+    public void UpdateHealth(Entity entity, int currentHealth, int maxHealth)
+    {
+        Debug.Log("ran");
+        float percentHp = (float)currentHealth / (float)maxHealth;
+        Vector3 vec = transform.localScale;
+        vec.x = m_OriginalXScale * percentHp;
+        transform.localScale = vec;
+    }
+
     private void LateUpdate()
     {
         transform.rotation = m_InitRot;

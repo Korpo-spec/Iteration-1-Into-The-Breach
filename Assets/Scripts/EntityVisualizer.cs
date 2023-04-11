@@ -7,6 +7,7 @@ public class EntityVisualizer : MonoBehaviour
 {
     [SerializeField] private MeshFilter meshFilter;
     [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private UnitHealthBar healthBar;
     
     public GameObject Spawn(Entity entity)
     {
@@ -14,6 +15,11 @@ public class EntityVisualizer : MonoBehaviour
         g.meshFilter.mesh = entity.mesh;
         g.meshRenderer.material = entity.mat;
         return g.gameObject;
+    }
+
+    public void UpdateHealth(Entity entity, int currentHealth, int maxHealth)
+    {
+        healthBar.UpdateHealth(entity, currentHealth,maxHealth);
     }
 
     

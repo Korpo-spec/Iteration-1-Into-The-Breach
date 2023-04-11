@@ -18,8 +18,8 @@ MonoBehaviour:
   mat: {fileID: 2100000, guid: 0d8231b30c98af64caa44000ff598093, type: 2}
   entityFaction: 1
   gridPos: {x: 0, y: 0}
-  hp: 0
-  damage: 0
+  maxHp: 5
+  damage: 2
   energy: 0
   movements:
   - {fileID: 11400000, guid: 5be81e414ebf01842a961c5b58880533, type: 2}

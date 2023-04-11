@@ -16,7 +16,8 @@ public class Entity : ScriptableObject
 
     public Vector2 gridPos;
 
-    public int hp;
+    [SerializeField] private int maxHp;
+    private int _currenthp;
 
     public int damage;
 
@@ -28,7 +29,11 @@ public class Entity : ScriptableObject
 
     public Dictionary<Vector2, UnitMove> availableMoves;
 
-    
+    public void DecreaseHealth(int amount)
+    {
+        _currenthp -= amount;
+        visualizer.GetComponent<EntityVisualizer>().UpdateHealth(this, _currenthp, maxHp);
+    }
 
     public virtual void OnSpawn()
     {
@@ -36,6 +41,8 @@ public class Entity : ScriptableObject
         visualizer = visualizer.GetComponent<EntityVisualizer>().Spawn(this);
 
         availableMoves = new Dictionary<Vector2, UnitMove>();
+
+        _currenthp = maxHp;
 
     }
     
