@@ -6,18 +6,20 @@ using UnityEngine;
 public class UnitHealthBar : MonoBehaviour
 {
     
-    private Quaternion initRot;
+    private Quaternion m_InitRot;
+    private float m_OriginalXScale;
 
 
     private void Start()
     {
         transform.LookAt(transform.position + Camera.main.transform.forward);
-        initRot = transform.rotation;
-        
+        m_InitRot = transform.rotation;
+        m_OriginalXScale = transform.localScale.x;
+
     }
 
     private void LateUpdate()
     {
-        transform.rotation = initRot;
+        transform.rotation = m_InitRot;
     }
 }

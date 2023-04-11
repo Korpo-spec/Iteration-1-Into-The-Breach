@@ -6,61 +6,61 @@ using Unity.VisualScripting;
 
 public class Grid<T>
 {
-    private T[,] grid;
-    private TextMesh[,] _textMeshes;
-    private Plane _plane;
+    private T[,] m_Grid;
+    private TextMesh[,] m_TextMeshes;
+    private Plane m_Plane;
 
-    private int width;
-    private int height;
-    private float cellSize;
-    private Vector3 origin;
-    private Vector3 _normal;
-    private Quaternion _rotationQuat;
-    private Action<Vector2, T[,]> _onSetup;
+    private int m_Width;
+    private int m_Height;
+    private float m_CellSize;
+    private Vector3 m_Origin;
+    private Vector3 m_Normal;
+    private Quaternion m_RotationQuat;
+    private Action<Vector2, T[,]> m_ONSetup;
 
     public event Action<T> OnGridValueChanged;
     public Grid(int width, int height, float cellSize, Vector3 origin, Vector3 normal, Action<Vector2, T[,]> onSetup)
     {
-        grid = new T[width, height];
-        _textMeshes = new TextMesh[width, height];
-        this.width = width;
-        this.height = height;
-        this.cellSize = cellSize;
-        this.origin = origin;
-        this._normal = normal;
-        _normal.Normalize();
-        _onSetup = onSetup;
+        m_Grid = new T[width, height];
+        m_TextMeshes = new TextMesh[width, height];
+        this.m_Width = width;
+        this.m_Height = height;
+        this.m_CellSize = cellSize;
+        this.m_Origin = origin;
+        this.m_Normal = normal;
+        m_Normal.Normalize();
+        m_ONSetup = onSetup;
         
-        _plane = new Plane(normal, origin);
+        m_Plane = new Plane(normal, origin);
         float angle = Vector3.Angle(normal, Vector3.forward);
         Vector3 rotationAxis = Vector3.Cross(normal, Vector3.forward);
-        _rotationQuat = Quaternion.AngleAxis(angle, rotationAxis);
-        Matrix4x4 mat = Matrix4x4.Rotate(_rotationQuat);
+        m_RotationQuat = Quaternion.AngleAxis(angle, rotationAxis);
+        Matrix4x4 mat = Matrix4x4.Rotate(m_RotationQuat);
         
         VisualizeGrid();
     }
 
     private void VisualizeGrid()
     {
-        for (int i = 0; i < grid.GetLength(1); i++)
+        for (int i = 0; i < m_Grid.GetLength(1); i++)
         {
-            for (int j = 0; j < grid.GetLength(0); j++)
+            for (int j = 0; j < m_Grid.GetLength(0); j++)
             {
                 /*_textMeshes[j,i] = UtilsClass.CreateWorldText(grid[j, i].ToString(), null, new Vector3(cellSize * (j +0.5f), cellSize * (i+0.5f), 0), 7,
                     Color.white, TextAnchor.MiddleCenter);
                     */
                 
-                _onSetup?.Invoke(new Vector2(j,i), grid);
-                Debug.DrawLine(_rotationQuat * (origin+new Vector3(cellSize * j, cellSize * i, 0)) ,_rotationQuat *(origin+new Vector3(cellSize*(j+1), cellSize*(i), 0)), Color.white, 100f);
-                Debug.DrawLine(_rotationQuat * (origin+new Vector3(cellSize * j, cellSize * i, 0)),_rotationQuat *(origin+new Vector3(cellSize*(j), cellSize*(i+1), 0)), Color.white, 100f);
-                if (j == grid.GetLength(0)-1)
+                m_ONSetup?.Invoke(new Vector2(j,i), m_Grid);
+                Debug.DrawLine(m_RotationQuat * (m_Origin+new Vector3(m_CellSize * j, m_CellSize * i, 0)) ,m_RotationQuat *(m_Origin+new Vector3(m_CellSize*(j+1), m_CellSize*(i), 0)), Color.white, 100f);
+                Debug.DrawLine(m_RotationQuat * (m_Origin+new Vector3(m_CellSize * j, m_CellSize * i, 0)),m_RotationQuat *(m_Origin+new Vector3(m_CellSize*(j), m_CellSize*(i+1), 0)), Color.white, 100f);
+                if (j == m_Grid.GetLength(0)-1)
                 {
-                    Debug.DrawLine(_rotationQuat *(origin+new Vector3(cellSize * (j+1), cellSize * i, 0)),_rotationQuat *(origin+new Vector3(cellSize*(j+1), cellSize*(i+1), 0)), Color.white, 100f);
+                    Debug.DrawLine(m_RotationQuat *(m_Origin+new Vector3(m_CellSize * (j+1), m_CellSize * i, 0)),m_RotationQuat *(m_Origin+new Vector3(m_CellSize*(j+1), m_CellSize*(i+1), 0)), Color.white, 100f);
                 }
                 
-                if (i == grid.GetLength(1)-1)
+                if (i == m_Grid.GetLength(1)-1)
                 {
-                    Debug.DrawLine(_rotationQuat *(origin+new Vector3(cellSize * j, cellSize * (i+1), 0)),_rotationQuat *(origin+new Vector3(cellSize*(j+1), cellSize*(i+1), 0)), Color.white, 100f);
+                    Debug.DrawLine(m_RotationQuat *(m_Origin+new Vector3(m_CellSize * j, m_CellSize * (i+1), 0)),m_RotationQuat *(m_Origin+new Vector3(m_CellSize*(j+1), m_CellSize*(i+1), 0)), Color.white, 100f);
                 }
             }
         }
@@ -99,12 +99,12 @@ public class Grid<T>
     public T GetValue(int x, int y)
     {
         //Debug.Log("X: " + x + " Y: " +y);
-        if (x < 0 || x > width-1 || y < 0 || y > height-1)
+        if (x < 0 || x > m_Width-1 || y < 0 || y > m_Height-1)
         {
             return default(T);
         }
 
-        return grid[x, y];
+        return m_Grid[x, y];
     }
 
     public T GetValue(Vector2 vector2)
@@ -114,11 +114,11 @@ public class Grid<T>
 
     public void SetValue(int x, int y, T value)
     {
-        if (x < 0 || x > width-1 || y < 0 || y > height-1)
+        if (x < 0 || x > m_Width-1 || y < 0 || y > m_Height-1)
         {
             return;
         }
-        grid[x, y] = value;
+        m_Grid[x, y] = value;
         UpdateVisualizer(x,y);
         OnGridValueChanged?.Invoke(value);
     }
@@ -133,14 +133,14 @@ public class Grid<T>
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
         float enter = 0;
-        if (_plane.Raycast(ray, out enter))
+        if (m_Plane.Raycast(ray, out enter))
         {
             Debug.Log(ray.GetPoint(enter));
             Vector3 rayHit = ray.GetPoint(enter);
             vec.x = rayHit.x;
             vec.y = rayHit.z;
             
-            if (vec.x < 0 || vec.x > width || vec.y < 0 || vec.y > height)
+            if (vec.x < 0 || vec.x > m_Width || vec.y < 0 || vec.y > m_Height)
             {
                 return false;
             }

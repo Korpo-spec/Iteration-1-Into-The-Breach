@@ -19,24 +19,29 @@ public class Entity : ScriptableObject
     public int hp;
 
     public int damage;
+
+    public int energy;
+
+
+
+    public List<UnitMove> movements;
+
+    public Dictionary<Vector2, UnitMove> availableMoves;
+
     
-    
-    
-    public virtual List<Vector2> Movements { get; set; }
 
     public virtual void OnSpawn()
     {
-        Movements = new List<Vector2>();
+        //movements = new List<UnitMove>();
         visualizer = visualizer.GetComponent<EntityVisualizer>().Spawn(this);
-        Movements.Add(new Vector2(1,0));
-        Movements.Add(new Vector2(-1,0));
-        Movements.Add(new Vector2(0,1));
-        Movements.Add(new Vector2(0,-1));
+
+        availableMoves = new Dictionary<Vector2, UnitMove>();
+
     }
+    
+    
+
+    
 }
 
-public enum Faction
-{
-    Player,
-    Enemy
-}
+
