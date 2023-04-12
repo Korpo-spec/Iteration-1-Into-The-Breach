@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dfcd42d1dc36df4dbfbc146a27c222d, type: 3}
   m_Name: American
   m_EditorClassIdentifier: 
-  visualizer: {fileID: 2329847714727598817, guid: 3bb7f47f64f6a0842b31c6f210eabaaa,
+  visualizer: {fileID: -1458466937614453063, guid: 3bb7f47f64f6a0842b31c6f210eabaaa,
     type: 3}
-  mesh: {fileID: 4300000, guid: 5896b06fa032ab64bb88b848fd99d9da, type: 3}
-  mat: {fileID: 2100000, guid: 0d8231b30c98af64caa44000ff598093, type: 2}
+  prefab: {fileID: 208061956479121043, guid: 63f19fc59714c5444921ee4fc201d9c4, type: 3}
   entityFaction: 1
   gridPos: {x: 0, y: 0}
   maxHp: 5

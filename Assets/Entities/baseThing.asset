@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dfcd42d1dc36df4dbfbc146a27c222d, type: 3}
   m_Name: baseThing
   m_EditorClassIdentifier: 
-  visualizer: {fileID: 2329847714727598817, guid: 3bb7f47f64f6a0842b31c6f210eabaaa,
+  visualizer: {fileID: -1458466937614453063, guid: 3bb7f47f64f6a0842b31c6f210eabaaa,
     type: 3}
-  mesh: {fileID: 4300000, guid: 33194a37d940c93458699378ee68d94c, type: 3}
-  mat: {fileID: 2100000, guid: 0f40575d24dd17a4c98681ecbea0ae11, type: 2}
+  prefab: {fileID: 1868458692392184, guid: d592535c9e5b1d043a53a25e3890f501, type: 3}
   entityFaction: 0
   gridPos: {x: 0, y: 0}
   maxHp: 5

@@ -42,11 +42,30 @@ public class AttackMove : UnitMove
     {
         MoveInteract(entity, otherEntity, pos);
 
-        return PlayAnim();
+        return PlayAnim(entity, pos);
     }
 
-    private IEnumerator PlayAnim()
+    private IEnumerator PlayAnim(Entity entity, Vector2 newPos)
     {
+        
+        TurnManager.IsDoingVisual = true;
+        Vector3 newPosVec3 = newPos;
+        newPosVec3.y = entity.visualizer.unitRef.transform.position.y;
+        
+        float time = 0;
+
+        Quaternion startRot = entity.visualizer.unitRef.transform.rotation;
+        while (time < 1)
+        {
+            entity.visualizer.unitRef.transform.rotation = Quaternion.Lerp(startRot, Quaternion.LookRotation(newPosVec3-  entity.visualizer.unitRef.transform.position ), time);
+            yield return new WaitForEndOfFrame();
+            time += Time.deltaTime * 5;
+        }
+        
+        
         yield return null;
+        
+        entity.visualizer.unitRef.GetComponent<Animator>().SetTrigger("Punch");
+        TurnManager.IsDoingVisual = false;
     }
 }

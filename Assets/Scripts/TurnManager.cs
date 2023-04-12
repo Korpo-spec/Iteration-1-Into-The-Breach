@@ -38,7 +38,7 @@ public class TurnManager : MonoBehaviour
         g.movements[0].movements.Add(new Vector2(0,2));
         g.movements[0].movements.Add(new Vector2(0,-2));
         */
-        Time.timeScale *= 10;
+        
         m_EnemyGrid.SetValue(width-1,height-1, g);
     }
 
@@ -95,8 +95,7 @@ public class TurnManager : MonoBehaviour
                                     {
                                         if (m_Selected.availableMoves[m_Selected.gridPos +moves].priority < unitMoves.priority)
                                         {
-                                            m_Selected.availableMoves.Remove(m_Selected.gridPos + moves);
-                                            m_Selected.availableMoves.Add(m_Selected.gridPos + moves, unitMoves);
+                                            m_Selected.availableMoves[m_Selected.gridPos + moves] = unitMoves;
                                         }
                                     }
                                     g.GetComponent<MeshRenderer>().material.color = unitMoves.moveColor;

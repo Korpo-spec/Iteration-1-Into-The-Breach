@@ -6,11 +6,9 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class Entity : ScriptableObject
 {
-    public GameObject visualizer;
+    public EntityVisualizer visualizer;
 
-    public Mesh mesh;
-
-    public Material mat;
+    public GameObject prefab;
 
     public Faction entityFaction;
 
@@ -37,6 +35,8 @@ public class Entity : ScriptableObject
 
     public virtual void OnSpawn()
     {
+        Debug.Log(this);
+        Debug.Log(prefab);
         //movements = new List<UnitMove>();
         visualizer = visualizer.GetComponent<EntityVisualizer>().Spawn(this);
 
