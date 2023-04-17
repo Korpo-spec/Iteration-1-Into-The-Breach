@@ -40,6 +40,8 @@ public class TurnManager : MonoBehaviour
         */
         
         m_EnemyGrid.SetValue(width-1,height-1, g);
+
+        Time.timeScale = 10;
     }
 
     private void OnSetup(Vector2 vec, GameObject[,] gameObjects)
