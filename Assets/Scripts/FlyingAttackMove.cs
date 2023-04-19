@@ -56,7 +56,7 @@ public class FlyingAttackMove : UnitMove
             return;
         }
        
-        if (otherUnit.entityFaction != entity.entityFaction)
+        if (otherUnit.entityFaction != entity.entityFaction && otherUnit.entityFaction != Faction.Terrain)
         {
             otherUnit.DecreaseHealth(entity.damage);
             
