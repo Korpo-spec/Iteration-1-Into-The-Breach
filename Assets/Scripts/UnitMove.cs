@@ -17,12 +17,12 @@ public abstract class UnitMove : ScriptableObject
         return true;
     }
     
-    public virtual bool AvailableMove(Entity otherUnit, Entity thisUnit)
+    public virtual bool AvailableMove(Entity otherUnit, Entity thisUnit, Grid<Entity> grid)
     {
         return false;
     }
 
-    public virtual void MoveInteract(Entity thisUnit, Entity otherUnit, Vector2 pos)
+    public virtual void MoveInteract(Entity thisUnit, Entity otherUnit, Vector2 pos, Grid<Entity> grid)
     {
         
     }

@@ -14,7 +14,11 @@ public class EntityVisualizer : MonoBehaviour
     {
         Debug.Log(entity);
         Debug.Log(entity.prefab);
-        var g = Instantiate(this, new Vector3(0.5f, 0, 0.5f), Quaternion.identity);
+        healthBar.gameObject.SetActive(entity.hasHealthBar);
+        Vector3 pos = transform.position;
+        pos.x = entity.gridPos.x + 0.5f;
+        pos.z = entity.gridPos.y + 0.5f;
+        var g = Instantiate(this,  pos, Quaternion.identity);
         g.unitRef = Instantiate(entity.prefab, g.transform);
         return g;
     }

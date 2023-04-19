@@ -8,6 +8,7 @@ public class TurnManager : MonoBehaviour
     [SerializeField] private GameObject gridObj;
     [SerializeField] private Entity player;
     [SerializeField] private Entity enemy;
+    [SerializeField] private Entity Terrain;
 
     [SerializeField] private int width;
     [SerializeField] private int height;
@@ -26,20 +27,22 @@ public class TurnManager : MonoBehaviour
 
         m_EnemyGrid = new Grid<Entity>(width, height, 1, Vector3.zero, Vector3.up, null);
         var g = Instantiate(player);
+        g.gridPos = new Vector2(0, 0);
         g.OnSpawn();
         m_EnemyGrid.SetValue(0,0, g);
         
         g = Instantiate(enemy);
-        
+        g.gridPos = new Vector2(width -1, height-1);
         g.OnSpawn();
-        /*
-        g.movements[0].movements.Add(new Vector2(2,0));
-        g.movements[0].movements.Add(new Vector2(-2,0));
-        g.movements[0].movements.Add(new Vector2(0,2));
-        g.movements[0].movements.Add(new Vector2(0,-2));
-        */
         
         m_EnemyGrid.SetValue(width-1,height-1, g);
+        
+        g = Instantiate(Terrain);
+        g.gridPos = new Vector2(2, 2);
+        g.OnSpawn();
+        
+        
+        m_EnemyGrid.SetValue(2,2, g);
 
         Time.timeScale = 10;
     }
@@ -84,7 +87,7 @@ public class TurnManager : MonoBehaviour
                                 var otherEntity = m_EnemyGrid.GetValue(m_Selected.gridPos + moves);
                                 if (otherEntity)
                                 {
-                                    availableMove = unitMoves.AvailableMove(otherEntity, m_Selected);
+                                    availableMove = unitMoves.AvailableMove(otherEntity, m_Selected, m_EnemyGrid);
                                 }
                                 else
                                 {

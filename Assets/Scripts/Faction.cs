@@ -2,5 +2,6 @@
 public enum Faction
 {
     Player,
-    Enemy
+    Enemy,
+    Terrain
 }

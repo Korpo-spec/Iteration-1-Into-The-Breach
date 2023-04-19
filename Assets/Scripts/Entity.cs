@@ -14,12 +14,16 @@ public class Entity : ScriptableObject
 
     public Vector2 gridPos;
 
+    public bool hasHealthBar;
+
     [SerializeField] private int maxHp;
     private int _currenthp;
 
     public int damage;
 
     public int energy;
+    
+    
 
 
 

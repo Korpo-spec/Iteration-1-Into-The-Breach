@@ -15,7 +15,7 @@ public class FlyingAttackMove : UnitMove
         movements.Add(new Vector2(0,-2));
     }
     
-    public override bool AvailableMove(Entity otherUnit, Entity thisUnit)
+    public override bool AvailableMove(Entity otherUnit, Entity thisUnit, Grid<Entity> grid)
     {
         
         return false;
@@ -26,7 +26,7 @@ public class FlyingAttackMove : UnitMove
         return true;
     }
 
-    public override void MoveInteract(Entity thisUnit, Entity otherUnit, Vector2 pos)
+    public override void MoveInteract(Entity thisUnit, Entity otherUnit, Vector2 pos, Grid<Entity> grid)
     {
         
     }

@@ -10,17 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2dfcd42d1dc36df4dbfbc146a27c222d, type: 3}
-  m_Name: American
+  m_Name: Terrain
   m_EditorClassIdentifier: 
   visualizer: {fileID: -1458466937614453063, guid: 3bb7f47f64f6a0842b31c6f210eabaaa,
     type: 3}
-  prefab: {fileID: 208061956479121043, guid: 63f19fc59714c5444921ee4fc201d9c4, type: 3}
-  entityFaction: 1
+  prefab: {fileID: 1068011044096796, guid: 5e810c49d37e92a44b1e476f97abca1f, type: 3}
+  entityFaction: 2
   gridPos: {x: 0, y: 0}
-  hasHealthBar: 1
-  maxHp: 5
-  damage: 2
+  maxHp: 0
+  damage: 0
   energy: 0
-  movements:
-  - {fileID: 11400000, guid: 5be81e414ebf01842a961c5b58880533, type: 2}
-  - {fileID: 11400000, guid: cdae6690242f47143bc7b19b588cb59c, type: 2}
+  movements: []

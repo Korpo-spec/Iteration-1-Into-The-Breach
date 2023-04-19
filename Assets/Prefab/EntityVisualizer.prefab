@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3230495818813744729
 Transform:
   m_ObjectHideFlags: 0
@@ -196,3 +196,4 @@ MonoBehaviour:
   meshFilter: {fileID: -2133803171181496484}
   meshRenderer: {fileID: 8646609016506287862}
   healthBar: {fileID: 5952999664640038692}
+  unitRef: {fileID: 0}

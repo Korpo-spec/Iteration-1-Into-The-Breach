@@ -14,9 +14,9 @@ public class AttackMove : UnitMove
         movements.Add(new Vector2(0,-1));
     }
 
-    public override bool AvailableMove(Entity otherUnit, Entity thisUnit)
+    public override bool AvailableMove(Entity otherUnit, Entity thisUnit, Grid<Entity> grid)
     {
-        if (otherUnit.entityFaction != thisUnit.entityFaction)
+        if (otherUnit.entityFaction != thisUnit.entityFaction &&  otherUnit.entityFaction != Faction.Terrain)
         {
             return true;
         }
@@ -29,18 +29,32 @@ public class AttackMove : UnitMove
         return false;
     }
 
-    public override void MoveInteract(Entity thisUnit, Entity otherUnit, Vector2 pos)
+    public override void MoveInteract(Entity thisUnit, Entity otherUnit, Vector2 pos, Grid<Entity> grid)
     {
-        if (otherUnit.entityFaction != thisUnit.entityFaction)
+        if (otherUnit.entityFaction != thisUnit.entityFaction &&  otherUnit.entityFaction != Faction.Terrain)
         {
-            otherUnit.DecreaseHealth(thisUnit.damage);
+            Vector2 dif = thisUnit.gridPos - otherUnit.gridPos;
+            dif.Normalize();
+
+            Entity entityBehindOtherUnit = grid.GetValue(otherUnit.gridPos - dif);
+
+            if (entityBehindOtherUnit && entityBehindOtherUnit.entityFaction == Faction.Terrain)
+            {
+                otherUnit.DecreaseHealth(thisUnit.damage * 2);
+            }
+            else
+            {
+                otherUnit.DecreaseHealth(thisUnit.damage);
+            }
+            
+            
             
         }
     }
 
     public override IEnumerator VisualizeMove(Entity entity,Entity otherEntity, Vector2 pos, Grid<Entity> grid)
     {
-        MoveInteract(entity, otherEntity, pos);
+        MoveInteract(entity, otherEntity, pos, grid);
 
         return PlayAnim(entity, pos);
     }

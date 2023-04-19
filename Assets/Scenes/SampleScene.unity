@@ -549,5 +549,6 @@ MonoBehaviour:
   gridObj: {fileID: 847414025}
   player: {fileID: 11400000, guid: 87c431ef987d3bd4996a8c922933abd1, type: 2}
   enemy: {fileID: 11400000, guid: c13c2c3c0d337fd4bbcc362c98deae9a, type: 2}
+  Terrain: {fileID: 11400000, guid: 760445a0468f7b34291bc4886ce42a76, type: 2}
   width: 5
   height: 5

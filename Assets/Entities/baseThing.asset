@@ -17,6 +17,7 @@ MonoBehaviour:
   prefab: {fileID: 1868458692392184, guid: d592535c9e5b1d043a53a25e3890f501, type: 3}
   entityFaction: 0
   gridPos: {x: 0, y: 0}
+  hasHealthBar: 1
   maxHp: 5
   damage: 2
   energy: 0
