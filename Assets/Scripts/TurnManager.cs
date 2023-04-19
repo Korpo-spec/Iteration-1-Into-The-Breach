@@ -91,7 +91,7 @@ public class TurnManager : MonoBehaviour
                                 }
                                 else
                                 {
-                                    availableMove = unitMoves.AvailableMove();
+                                    availableMove = unitMoves.AvailableMove(m_Selected, m_Selected.gridPos + moves, m_EnemyGrid);
                                 }
 
                                 if (availableMove)

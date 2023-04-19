@@ -21,9 +21,21 @@ public class FlyingAttackMove : UnitMove
         return false;
     }
 
-    public override bool AvailableMove()
+    public override bool AvailableMove(Entity entity,Vector2 pos, Grid<Entity> grid)
     {
-        return true;
+        Vector2 dif = entity.gridPos - pos;
+        dif.Normalize();
+
+        Entity otherUnit = grid.GetValue(entity.gridPos - dif);
+        if (otherUnit && otherUnit.entityFaction != entity.entityFaction)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
     }
 
     public override void MoveInteract(Entity thisUnit, Entity otherUnit, Vector2 pos, Grid<Entity> grid)

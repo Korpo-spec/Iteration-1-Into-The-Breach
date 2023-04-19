@@ -17,7 +17,7 @@ public class MoveUnitMove : UnitMove
         movements.Add(new Vector2(0,-1));
     }
 
-    public override bool AvailableMove()
+    public override bool AvailableMove(Entity entity,Vector2 pos, Grid<Entity> grid)
     {
         return true;
     }

@@ -12,7 +12,7 @@ public abstract class UnitMove : ScriptableObject
     public int priority;
     public Color moveColor;
 
-    public virtual bool AvailableMove()
+    public virtual bool AvailableMove(Entity entity,Vector2 pos, Grid<Entity> grid)
     {
         return true;
     }

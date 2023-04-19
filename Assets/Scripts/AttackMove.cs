@@ -24,7 +24,7 @@ public class AttackMove : UnitMove
         return false;
     }
 
-    public override bool AvailableMove()
+    public override bool AvailableMove(Entity entity,Vector2 pos, Grid<Entity> grid)
     {
         return false;
     }
