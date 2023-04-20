@@ -19,12 +19,15 @@ public class Grid<T>
     private Action<Vector2, T[,]> m_ONSetup;
 
     public event Action<T> OnGridValueChanged;
+    public readonly Vector2 size;
     public Grid(int width, int height, float cellSize, Vector3 origin, Vector3 normal, Action<Vector2, T[,]> onSetup)
     {
         m_Grid = new T[width, height];
         m_TextMeshes = new TextMesh[width, height];
         this.m_Width = width;
         this.m_Height = height;
+        size.x = width;
+        size.y = height;
         this.m_CellSize = cellSize;
         this.m_Origin = origin;
         this.m_Normal = normal;

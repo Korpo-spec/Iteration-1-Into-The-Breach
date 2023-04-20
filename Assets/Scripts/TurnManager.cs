@@ -22,6 +22,7 @@ public class TurnManager : MonoBehaviour
     
     void Start()
     {
+        
         m_CurrentFaction = Faction.Player;
         m_WorldGrid = new Grid<GameObject>(width,height,1,Vector3.zero, Vector3.up, OnSetup);
 
