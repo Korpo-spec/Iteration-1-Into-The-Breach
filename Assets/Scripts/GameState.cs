@@ -16,10 +16,11 @@ public class GameState
 
         _entities = new List<Entity>();
 
+        _stateFaction = startFaction;
         for (int i = 0; i < entities.Count; i++)
         {
             Entity copy = Object.Instantiate(entities[i]);
-            Debug.Log(copy.gridPos);
+            
             copy.onDestroyEntity += OnEntityDestoyed;
             copy.availableMoves = new Dictionary<Vector2, UnitMove>();
             _entities.Add(copy);
@@ -42,11 +43,13 @@ public class GameState
 
         _entities = new List<Entity>();
 
+        _stateFaction = gameState._stateFaction;
         for (int i = 0; i < gameState._entities.Count; i++)
         {
             Entity copy = Object.Instantiate(gameState._entities[i]);
             copy.onDestroyEntity += OnEntityDestoyed;
             copy.availableMoves = new Dictionary<Vector2, UnitMove>();
+            Debug.Log(copy.gridPos);
             _entities.Add(copy);
             _enemyGrid.SetValue(copy.gridPos, copy);
             
@@ -54,7 +57,7 @@ public class GameState
 
         
     }
-    private Faction GetNextFaction(Faction currentFaction)
+    public Faction GetNextFaction(Faction currentFaction)
     {
         Faction nextFaction;
 

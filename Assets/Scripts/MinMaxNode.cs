@@ -14,6 +14,7 @@ public class MinMaxNode
     {
         this.gameState = gameState;
         this.level = level;
+        children = new List<MinMaxNode>();
     }
     public MinMaxNode(GameState gameState, int level, UnitMoveData move)
     {
@@ -21,6 +22,7 @@ public class MinMaxNode
         this.level = level;
 
         this.move = move;
+        children = new List<MinMaxNode>();
     }
     
     

@@ -24,6 +24,7 @@ public class MoveUnitMove : UnitMove
 
     public override void MoveInteract(Entity entity, Vector2 pos, Grid<Entity> grid)
     {
+        Debug.Log(entity);
         grid.SetValue(entity.gridPos, null);
         grid.SetValue(pos, entity);
         entity.gridPos = pos;

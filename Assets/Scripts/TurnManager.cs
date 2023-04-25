@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TurnManager : MonoBehaviour
@@ -15,16 +16,18 @@ public class TurnManager : MonoBehaviour
 
     private Entity m_Selected;
     private Grid<GameObject> m_WorldGrid;
-    //private Grid<Entity> m_EnemyGrid;
+    
+    
+    
     public static bool IsDoingVisual;
     public GameState currentGameState;
 
-    private Faction m_CurrentFaction;
+   
     
     void Start()
     {
         
-        m_CurrentFaction = Faction.Player;
+        //m_CurrentFaction = Faction.Player;
         m_WorldGrid = new Grid<GameObject>(width,height,1,Vector3.zero, Vector3.up, OnSetup);
 
         //m_EnemyGrid = new Grid<Entity>(width, height, 1, Vector3.zero, Vector3.up, null);
@@ -53,7 +56,7 @@ public class TurnManager : MonoBehaviour
         entities.Add(g);
         
         //m_EnemyGrid.SetValue(2,2, g);
-        currentGameState = new GameState(new Vector2(width, height), entities, m_CurrentFaction);
+        currentGameState = new GameState(new Vector2(width, height), entities, Faction.Player);
         Time.timeScale = 10;
     }
 
@@ -72,6 +75,21 @@ public class TurnManager : MonoBehaviour
         {
             return;
         }
+
+        if (currentGameState._stateFaction == Faction.Enemy)
+        {
+            MinMaxTree tree = new MinMaxTree(currentGameState, Faction.Enemy, 1);
+            MinMaxNode node = tree.root.children.GetRandom();
+            m_Selected = currentGameState._enemyGrid.GetValue(node.move.entity.gridPos);
+            Entity otherEntity = currentGameState._enemyGrid.GetValue(node.move.pos);
+
+            currentGameState._stateFaction = currentGameState.GetNextFaction(currentGameState._stateFaction);
+                
+            StartCoroutine(otherEntity ? node.move.move.VisualizeMove(m_Selected,otherEntity, node.move.pos , currentGameState._enemyGrid):node.move.move.VisualizeMove(m_Selected, node.move.pos , currentGameState._enemyGrid));
+            m_Selected = null;
+            return;
+        }
+        
         if (Input.GetMouseButtonDown(0))
         {
             if (!m_Selected)
@@ -81,7 +99,7 @@ public class TurnManager : MonoBehaviour
                 if (m_Selected)
                 {
                     m_Selected.availableMoves.Clear();
-                    if (m_Selected.entityFaction != m_CurrentFaction)
+                    if (m_Selected.entityFaction != currentGameState._stateFaction)
                     {
                         m_Selected = null;
                         return;
@@ -129,7 +147,8 @@ public class TurnManager : MonoBehaviour
                         g.GetComponent<MeshRenderer>().material.color = Color.gray;
                     }
                 }
-                m_CurrentFaction = GetNextFaction(m_CurrentFaction);
+
+                currentGameState._stateFaction = currentGameState.GetNextFaction(currentGameState._stateFaction);
                 
                 StartCoroutine(otherEntity ? move.VisualizeMove(m_Selected,otherEntity, pos , currentGameState._enemyGrid):move.VisualizeMove(m_Selected, pos , currentGameState._enemyGrid));
                 
@@ -139,39 +158,5 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    private Faction GetNextFaction(Faction currentFaction)
-    {
-        Faction nextFaction;
-
-        nextFaction = currentFaction == Faction.Player ? Faction.Enemy : Faction.Player;
-        
-        return nextFaction;
-    }
-
-    private IEnumerator MoveCharacter(Transform character, Vector3 newPos)
-    {
-        IsDoingVisual = true;
-        Vector3 newPosVec3 = newPos;
-        newPosVec3.y = character.position.y;
-        
-        float time = 0;
-
-        Quaternion startRot = character.rotation;
-        while (time < 1)
-        {
-            character.rotation = Quaternion.Lerp(startRot, Quaternion.LookRotation(newPosVec3- character.position ), time);
-            yield return new WaitForEndOfFrame();
-            time += Time.deltaTime * 5;
-        }
-
-        time = 0;
-        Vector3 startPos = character.position;
-        while (time < 1)
-        {
-            character.position = Vector3.Lerp(startPos, newPosVec3, time);
-            time += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-        IsDoingVisual = false;
-    }
+    
 }

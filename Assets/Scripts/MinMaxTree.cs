@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MinMaxTree
 {
-    private MinMaxNode root;
+    public MinMaxNode root;
     
     public MinMaxTree(GameState gameState, Faction maximizingFaction, int maxLevel)
     {
