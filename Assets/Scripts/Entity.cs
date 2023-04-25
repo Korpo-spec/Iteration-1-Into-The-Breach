@@ -31,17 +31,33 @@ public class Entity : ScriptableObject
 
     public Dictionary<Vector2, UnitMove> availableMoves;
 
+    public event Action<Entity> onDestroyEntity;
+
+
+    private Grid<Entity> entityGrid;
+
     public void DecreaseHealth(int amount)
     {
         _currenthp -= amount;
-        visualizer.GetComponent<EntityVisualizer>().UpdateHealth(this, _currenthp, maxHp);
+        if (_currenthp <= 0)
+        {
+            entityGrid.SetValue(gridPos, null);
+            onDestroyEntity?.Invoke(this);
+            Destroy(visualizer.gameObject);
+        }
+        else
+        {
+            visualizer.UpdateHealth(this, _currenthp, maxHp);
+        }
+        
     }
 
-    public virtual void OnSpawn()
+    public virtual void OnSpawn(Grid<Entity> grid)
     {
         Debug.Log(this);
         Debug.Log(prefab);
         //movements = new List<UnitMove>();
+        entityGrid = grid;
         visualizer = visualizer.GetComponent<EntityVisualizer>().Spawn(this);
 
         availableMoves = new Dictionary<Vector2, UnitMove>();

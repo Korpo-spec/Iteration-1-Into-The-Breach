@@ -29,18 +29,24 @@ public class TurnManager : MonoBehaviour
         m_EnemyGrid = new Grid<Entity>(width, height, 1, Vector3.zero, Vector3.up, null);
         var g = Instantiate(player);
         g.gridPos = new Vector2(0, 0);
-        g.OnSpawn();
+        g.OnSpawn(m_EnemyGrid);
         m_EnemyGrid.SetValue(0,0, g);
         
         g = Instantiate(enemy);
         g.gridPos = new Vector2(width -1, height-1);
-        g.OnSpawn();
+        g.OnSpawn(m_EnemyGrid);
         
         m_EnemyGrid.SetValue(width-1,height-1, g);
         
+        g = Instantiate(enemy);
+        g.gridPos = new Vector2(2, 1);
+        g.OnSpawn(m_EnemyGrid);
+        
+        m_EnemyGrid.SetValue(2,1, g);
+        
         g = Instantiate(Terrain);
         g.gridPos = new Vector2(2, 2);
-        g.OnSpawn();
+        g.OnSpawn(m_EnemyGrid);
         
         
         m_EnemyGrid.SetValue(2,2, g);
@@ -71,6 +77,7 @@ public class TurnManager : MonoBehaviour
                 m_Selected = m_EnemyGrid.GetValue(pos);
                 if (m_Selected)
                 {
+                    m_Selected.availableMoves.Clear();
                     if (m_Selected.entityFaction != m_CurrentFaction)
                     {
                         m_Selected = null;
@@ -155,14 +162,7 @@ public class TurnManager : MonoBehaviour
     {
         Faction nextFaction;
 
-        if (currentFaction == Faction.Player)
-        {
-            nextFaction = Faction.Enemy;
-        }
-        else
-        {
-            nextFaction = Faction.Player;
-        }
+        nextFaction = currentFaction == Faction.Player ? Faction.Enemy : Faction.Player;
         
         return nextFaction;
     }
