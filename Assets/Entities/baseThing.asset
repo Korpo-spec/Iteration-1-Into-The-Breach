@@ -19,6 +19,7 @@ MonoBehaviour:
   gridPos: {x: 0, y: 0}
   hasHealthBar: 1
   maxHp: 5
+  _currenthp: 0
   damage: 2
   energy: 0
   movements:
