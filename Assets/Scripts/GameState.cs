@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameState 
@@ -41,5 +42,56 @@ public class GameState
 
         
     }
-    
+    private Faction GetNextFaction(Faction currentFaction)
+    {
+        Faction nextFaction;
+
+        nextFaction = currentFaction == Faction.Player ? Faction.Enemy : Faction.Player;
+        
+        return nextFaction;
+    }
+
+    public List<UnitMoveData> GetMoves()
+    {
+        List<UnitMoveData> validMoves = new List<UnitMoveData>();
+        List<Entity> validEntities = _entities.Where(e => e.entityFaction == _stateFaction).ToList();
+
+        foreach (var entity in validEntities)
+        {
+            foreach (var unitMove in entity.movements)
+            {
+                foreach (var move in unitMove.movements)
+                {
+                    bool availableMove = false;
+                    var otherEntity = _enemyGrid.GetValue(entity.gridPos + move);
+                    if (otherEntity)
+                    {
+                        availableMove = unitMove.AvailableMove(otherEntity, entity, _enemyGrid);
+                    }
+                    else
+                    {
+                        availableMove = unitMove.AvailableMove(entity, entity.gridPos + move, _enemyGrid);
+                    }
+
+                    if (!availableMove) continue;
+                    
+                    if (!entity.availableMoves.TryAdd(entity.gridPos +move, unitMove))
+                    {
+                        if (entity.availableMoves[entity.gridPos +move].priority < unitMove.priority)
+                        {
+                            entity.availableMoves[entity.gridPos + move] = unitMove;
+                        }
+                    }
+                }
+            }
+
+            foreach (var movePos in entity.availableMoves.Keys)
+            {
+                validMoves.Add(new UnitMoveData(entity, movePos, entity.availableMoves[movePos]));
+            }
+        }
+
+        return null;
+    }
+
 }

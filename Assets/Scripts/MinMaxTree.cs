@@ -1,0 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MinMaxTree
+{
+    private MinMaxNode root;
+    
+    public MinMaxTree(GameState gameState, Faction maximizingFaction, int maxLevel)
+    {
+        root = new MinMaxNode(new GameState(gameState), 0);
+    }
+
+    private void Expand(MinMaxNode node, Faction maximizingFaction, int maxLevel)
+    {
+        if (node.level < maxLevel)
+        {
+            foreach (var move in node.gameState.GetMoves())
+            {
+                
+            }
+        }
+    }
+}

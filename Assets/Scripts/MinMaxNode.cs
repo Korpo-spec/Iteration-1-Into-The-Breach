@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class MinMaxNode
 {
-    private int level;
-    private UnitMove move;
-    private List<MinMaxNode> children;
-    private int value;
+    public int level;
+    public UnitMove move;
+    public GameState gameState;
+    public List<MinMaxNode> children;
+    public int value;
+
+    public MinMaxNode(GameState gameState, int level)
+    {
+        this.gameState = gameState;
+        this.level = level;
+    }
+    
+    
 }
