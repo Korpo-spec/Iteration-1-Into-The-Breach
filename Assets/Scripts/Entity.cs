@@ -17,7 +17,7 @@ public class Entity : ScriptableObject
     public bool hasHealthBar;
 
     [SerializeField] private int maxHp;
-    private int _currenthp;
+    [SerializeField] private int _currenthp;
 
     public int damage;
 
@@ -34,14 +34,15 @@ public class Entity : ScriptableObject
     public event Action<Entity> onDestroyEntity;
 
 
-    private Grid<Entity> entityGrid;
+    
 
     public void DecreaseHealth(int amount)
     {
         _currenthp -= amount;
+        Debug.Log(_currenthp);
         if (_currenthp <= 0)
         {
-            entityGrid.SetValue(gridPos, null);
+            
             onDestroyEntity?.Invoke(this);
             Destroy(visualizer.gameObject);
         }
@@ -52,12 +53,12 @@ public class Entity : ScriptableObject
         
     }
 
-    public virtual void OnSpawn(Grid<Entity> grid)
+    public virtual void OnSpawn()
     {
         Debug.Log(this);
         Debug.Log(prefab);
         //movements = new List<UnitMove>();
-        entityGrid = grid;
+        
         visualizer = visualizer.GetComponent<EntityVisualizer>().Spawn(this);
 
         availableMoves = new Dictionary<Vector2, UnitMove>();
