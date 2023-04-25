@@ -26,6 +26,15 @@ public class UnitHealthBar : MonoBehaviour
         vec.x = m_OriginalXScale * percentHp;
         transform.localScale = vec;
     }
+    
+    public void UpdateHealth(Entity entity, float frac)
+    {
+        Debug.Log("ran");
+        float percentHp = frac;
+        Vector3 vec = transform.localScale;
+        vec.x = m_OriginalXScale * percentHp;
+        transform.localScale = vec;
+    }
 
     private void LateUpdate()
     {

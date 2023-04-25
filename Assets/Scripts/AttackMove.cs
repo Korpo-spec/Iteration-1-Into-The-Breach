@@ -55,6 +55,8 @@ public class AttackMove : UnitMove
     public override IEnumerator VisualizeMove(Entity entity,Entity otherEntity, Vector2 pos, Grid<Entity> grid)
     {
         MoveInteract(entity, otherEntity, pos, grid);
+        entity.visualizer.UpdateHealth(entity, entity.hpFraction);
+        otherEntity.visualizer.UpdateHealth(otherEntity, otherEntity.hpFraction);
 
         return PlayAnim(entity, pos);
     }

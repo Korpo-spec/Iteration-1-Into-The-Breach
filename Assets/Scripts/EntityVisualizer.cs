@@ -27,6 +27,11 @@ public class EntityVisualizer : MonoBehaviour
     {
         healthBar.UpdateHealth(entity, currentHealth,maxHealth);
     }
+    
+    public void UpdateHealth(Entity entity, float frac)
+    {
+        healthBar.UpdateHealth(entity, frac);
+    }
 
     
 }

@@ -19,6 +19,7 @@ public class Entity : ScriptableObject
     [SerializeField] private int maxHp;
     [SerializeField] private int _currenthp;
 
+    public float hpFraction => (float) _currenthp/maxHp ;
     public int damage;
 
     public int energy;
@@ -48,7 +49,7 @@ public class Entity : ScriptableObject
         }
         else
         {
-            visualizer.UpdateHealth(this, _currenthp, maxHp);
+            
         }
         
     }

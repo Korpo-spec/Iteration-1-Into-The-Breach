@@ -10,11 +10,12 @@ public class MinMaxTree
     {
         root = new MinMaxNode(new GameState(gameState), 0);
         Expand(root, maximizingFaction, maxLevel);
+        Propagate(root, maximizingFaction);
     }
 
     private void Expand(MinMaxNode node, Faction maximizingFaction, int maxLevel)
     {
-        if (node.level < maxLevel)
+        if (node.level < maxLevel && !node.gameState.gameOver)
         {
             foreach (var move in node.gameState.GetMoves())
             {
@@ -22,6 +23,34 @@ public class MinMaxTree
                 MinMaxNode childNode = new MinMaxNode(childState, node.level + 1, move);
                 Expand(childNode, maximizingFaction, maxLevel);
                 node.children.Add(childNode);
+            }
+        }
+        else
+        {
+            node.IsLeaf = true;
+        }
+    }
+
+    private void Propagate(MinMaxNode node, Faction maximizingFaction)
+    {
+        if (node.IsLeaf)
+        {
+            node.value = node.gameState.Evaluate(maximizingFaction, node.gameState.GetNextFaction(maximizingFaction));
+        }
+        else
+        {
+            foreach (MinMaxNode child in node.children)
+            {
+                Propagate(child, maximizingFaction);
+            }
+
+            if (node.gameState._stateFaction == maximizingFaction)
+            {
+                node.value = node.GetMaxValue();
+            }
+            else
+            {
+                node.value = node.GetMinValue();
             }
         }
     }

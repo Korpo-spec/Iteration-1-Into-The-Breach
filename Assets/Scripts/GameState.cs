@@ -8,6 +8,7 @@ public class GameState
     public Grid<Entity> _enemyGrid;
     public List<Entity> _entities;
     public Faction _stateFaction;
+    public bool gameOver;
 
     public GameState(Vector2 size, List<Entity> entities, Faction startFaction)
     {
@@ -33,6 +34,7 @@ public class GameState
     {
         _enemyGrid.SetValue(entity.gridPos, null);
         _entities.Remove(entity);
+        gameOver = !(_entities.Count(e => e.entityFaction == GetNextFaction(_stateFaction)) > 0);
         entity.onDestroyEntity -= OnEntityDestoyed;
     }
 
@@ -42,7 +44,7 @@ public class GameState
             Vector3.up, null);
 
         _entities = new List<Entity>();
-
+        
         _stateFaction = gameState._stateFaction;
         for (int i = 0; i < gameState._entities.Count; i++)
         {
@@ -90,8 +92,14 @@ public class GameState
         {
             foreach (var move in unitMove.movements)
             {
+                Vector2 vec = entity.gridPos + move;
+                if (vec.x < 0 || vec.x > _enemyGrid.size.x-1 || vec.y < 0 || vec.y > _enemyGrid.size.y-1)
+                {
+                    continue;
+                }
                 bool availableMove = false;
                 var otherEntity = _enemyGrid.GetValue(entity.gridPos + move);
+                
                 if (otherEntity)
                 {
                     availableMove = unitMove.AvailableMove(otherEntity, entity, _enemyGrid);
@@ -135,6 +143,25 @@ public class GameState
         
         
         return state;
+    }
+
+    public int Evaluate(Faction maximizingPlayer, Faction MinimizingPlayer)
+    {
+        if (!(_entities.Count(e => e.entityFaction == GetNextFaction(MinimizingPlayer)) > 0))
+        {
+            return int.MaxValue;
+        }
+        else if(!(_entities.Count(e => e.entityFaction == GetNextFaction(maximizingPlayer)) > 0))
+        {
+            return int.MinValue;
+        }
+        else
+        {
+            float scoreMax = _entities.Where(e => e.entityFaction == maximizingPlayer).Sum(i => i.hpFraction);
+            float scoreMin = _entities.Where(e => e.entityFaction == MinimizingPlayer).Sum(i => i.hpFraction);
+
+            return (int)(scoreMax * 100 - scoreMin * 100);
+        }
     }
     
     
