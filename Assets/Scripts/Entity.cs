@@ -45,7 +45,7 @@ public class Entity : ScriptableObject
         {
             
             onDestroyEntity?.Invoke(this);
-            Destroy(visualizer.gameObject);
+            
         }
         else
         {

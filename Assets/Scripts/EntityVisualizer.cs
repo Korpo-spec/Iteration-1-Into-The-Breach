@@ -30,6 +30,10 @@ public class EntityVisualizer : MonoBehaviour
     
     public void UpdateHealth(Entity entity, float frac)
     {
+        if (frac <= 0)
+        {
+            Destroy(gameObject);
+        }
         healthBar.UpdateHealth(entity, frac);
     }
 

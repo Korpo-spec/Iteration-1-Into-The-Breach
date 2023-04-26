@@ -147,11 +147,11 @@ public class GameState
 
     public int Evaluate(Faction maximizingPlayer, Faction MinimizingPlayer)
     {
-        if (!(_entities.Count(e => e.entityFaction == GetNextFaction(MinimizingPlayer)) > 0))
+        if (!(_entities.Count(e => e.entityFaction == MinimizingPlayer) > 0))
         {
             return int.MaxValue;
         }
-        else if(!(_entities.Count(e => e.entityFaction == GetNextFaction(maximizingPlayer)) > 0))
+        else if(!(_entities.Count(e => e.entityFaction == maximizingPlayer) > 0))
         {
             return int.MinValue;
         }

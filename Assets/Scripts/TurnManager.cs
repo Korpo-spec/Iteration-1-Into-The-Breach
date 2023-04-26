@@ -78,7 +78,7 @@ public class TurnManager : MonoBehaviour
 
         if (currentGameState._stateFaction == Faction.Enemy)
         {
-            MinMaxTree tree = new MinMaxTree(currentGameState, Faction.Enemy, 5);
+            MinMaxTree tree = new MinMaxTree(currentGameState, Faction.Enemy, 2);
             MinMaxNode node = tree.root.GetMaxNode();
             Debug.Log(node.move.move);
             m_Selected = currentGameState._enemyGrid.GetValue(node.move.entity.gridPos);
