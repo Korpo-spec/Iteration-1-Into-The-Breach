@@ -35,7 +35,7 @@ public class MinMaxTree
     {
         if (node.IsLeaf)
         {
-            node.value = node.gameState.Evaluate(maximizingFaction, node.gameState.GetNextFaction(maximizingFaction));
+            node.value = node.gameState.Evaluate(maximizingFaction, node.gameState.GetNextFactionIgnoreEnergy(maximizingFaction));
         }
         else
         {
@@ -46,11 +46,13 @@ public class MinMaxTree
 
             if (node.gameState._stateFaction == maximizingFaction)
             {
-                node.value = node.GetMaxValue();
+                node.value = node.GetMinValue();
+                
+                
             }
             else
             {
-                node.value = node.GetMinValue();
+                node.value = node.GetMaxValue();
             }
         }
     }

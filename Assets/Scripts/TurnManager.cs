@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public class TurnManager : MonoBehaviour
 {
@@ -35,28 +36,42 @@ public class TurnManager : MonoBehaviour
         var g = Instantiate(player);
         g.gridPos = new Vector2(0, 0);
         g.OnSpawn();
+        entities.Add(g);
         //m_EnemyGrid.SetValue(0,0, g);
+        
+        g = Instantiate(player);
+        g.gridPos = new Vector2(1, 1);
+        g.OnSpawn();
+        entities.Add(g);
+        g = Instantiate(player);
+        g.gridPos = new Vector2(1, 0);
+        g.OnSpawn();
         entities.Add(g);
         
         g = Instantiate(enemy);
         g.gridPos = new Vector2(width -1, height-1);
         g.OnSpawn();
-        
-        //m_EnemyGrid.SetValue(width-1,height-1, g);
         entities.Add(g);
+        //m_EnemyGrid.SetValue(width-1,height-1, g);
+        
         g = Instantiate(enemy);
         g.gridPos = new Vector2(2, 1);
         g.OnSpawn();
-        
-        //m_EnemyGrid.SetValue(2,1, g);
         entities.Add(g);
+        
+        g = Instantiate(enemy);
+        g.gridPos = new Vector2(1, 3);
+        g.OnSpawn();
+        entities.Add(g);
+        //m_EnemyGrid.SetValue(2,1, g);
+        
         g = Instantiate(Terrain);
         g.gridPos = new Vector2(2, 2);
         g.OnSpawn();
         entities.Add(g);
         
         //m_EnemyGrid.SetValue(2,2, g);
-        currentGameState = new GameState(new Vector2(width, height), entities, Faction.Player);
+        currentGameState = new GameState(new Vector2(width, height), entities, Faction.Player,2);
         Time.timeScale = 10;
     }
 
@@ -78,15 +93,19 @@ public class TurnManager : MonoBehaviour
 
         if (currentGameState._stateFaction == Faction.Enemy)
         {
-            MinMaxTree tree = new MinMaxTree(currentGameState, Faction.Enemy, 2);
+            Profiler.BeginSample("Tree");
+            MinMaxTree tree = new MinMaxTree(currentGameState, Faction.Enemy, 4);
             MinMaxNode node = tree.root.GetMaxNode();
-            Debug.Log(node.move.move);
+            Profiler.EndSample();
+            //Debug.Log(node.move.move);
             m_Selected = currentGameState._enemyGrid.GetValue(node.move.entity.gridPos);
             Entity otherEntity = currentGameState._enemyGrid.GetValue(node.move.pos);
 
             currentGameState._stateFaction = currentGameState.GetNextFaction(currentGameState._stateFaction);
-                
+            
+            Profiler.BeginSample("Visual");
             StartCoroutine(otherEntity ? node.move.move.VisualizeMove(m_Selected,otherEntity, node.move.pos , currentGameState._enemyGrid):node.move.move.VisualizeMove(m_Selected, node.move.pos , currentGameState._enemyGrid));
+            Profiler.EndSample();
             m_Selected = null;
             return;
         }
@@ -157,6 +176,13 @@ public class TurnManager : MonoBehaviour
             }
             
         }
+    }
+
+    private IEnumerator StartVisual(IEnumerator visualObj)
+    {
+        IsDoingVisual = true;
+        yield return StartCoroutine(visualObj);
+        IsDoingVisual = false;
     }
 
     

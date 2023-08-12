@@ -23,10 +23,6 @@ public class Entity : ScriptableObject
     public int damage;
 
     public int energy;
-    
-    
-
-
 
     public List<UnitMove> movements;
 
@@ -40,7 +36,7 @@ public class Entity : ScriptableObject
     public void DecreaseHealth(int amount)
     {
         _currenthp -= amount;
-        Debug.Log(_currenthp);
+        //Debug.Log(_currenthp);
         if (_currenthp <= 0)
         {
             
@@ -56,8 +52,8 @@ public class Entity : ScriptableObject
 
     public virtual void OnSpawn()
     {
-        Debug.Log(this);
-        Debug.Log(prefab);
+        //Debug.Log(this);
+        //Debug.Log(prefab);
         //movements = new List<UnitMove>();
         
         visualizer = visualizer.GetComponent<EntityVisualizer>().Spawn(this);

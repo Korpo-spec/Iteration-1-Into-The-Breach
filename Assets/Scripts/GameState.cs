@@ -9,14 +9,15 @@ public class GameState
     public List<Entity> _entities;
     public Faction _stateFaction;
     public bool gameOver;
+    public int energy;
 
-    public GameState(Vector2 size, List<Entity> entities, Faction startFaction)
+    public GameState(Vector2 size, List<Entity> entities, Faction startFaction, int energy)
     {
         _enemyGrid = new Grid<Entity>((int)size.x, (int)size.y, 1, Vector3.zero,
             Vector3.up, null);
 
         _entities = new List<Entity>();
-
+        this.energy = energy;
         _stateFaction = startFaction;
         for (int i = 0; i < entities.Count; i++)
         {
@@ -46,12 +47,13 @@ public class GameState
         _entities = new List<Entity>();
         
         _stateFaction = gameState._stateFaction;
+        energy = gameState.energy;
         for (int i = 0; i < gameState._entities.Count; i++)
         {
             Entity copy = Object.Instantiate(gameState._entities[i]);
             copy.onDestroyEntity += OnEntityDestoyed;
             copy.availableMoves = new Dictionary<Vector2, UnitMove>();
-            Debug.Log(copy.gridPos);
+            //Debug.Log(copy.gridPos);
             _entities.Add(copy);
             _enemyGrid.SetValue(copy.gridPos, copy);
             
@@ -61,9 +63,28 @@ public class GameState
     }
     public Faction GetNextFaction(Faction currentFaction)
     {
+        energy--;
+        if (energy > 0)
+        {
+            
+            return currentFaction;
+        }
+        energy = 2;
         Faction nextFaction;
 
         nextFaction = currentFaction == Faction.Player ? Faction.Enemy : Faction.Player;
+        
+        
+        return nextFaction;
+    }
+    
+    public Faction GetNextFactionIgnoreEnergy(Faction currentFaction)
+    {
+        
+        Faction nextFaction;
+
+        nextFaction = currentFaction == Faction.Player ? Faction.Enemy : Faction.Player;
+        
         
         return nextFaction;
     }
@@ -149,10 +170,12 @@ public class GameState
     {
         if (!(_entities.Count(e => e.entityFaction == MinimizingPlayer) > 0))
         {
+            
             return int.MaxValue;
         }
         else if(!(_entities.Count(e => e.entityFaction == maximizingPlayer) > 0))
         {
+            
             return int.MinValue;
         }
         else

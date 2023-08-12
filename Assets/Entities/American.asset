@@ -21,7 +21,7 @@ MonoBehaviour:
   maxHp: 5
   _currenthp: 0
   damage: 2
-  energy: 0
+  energy: 2
   movements:
   - {fileID: 11400000, guid: 5be81e414ebf01842a961c5b58880533, type: 2}
   - {fileID: 11400000, guid: cdae6690242f47143bc7b19b588cb59c, type: 2}
